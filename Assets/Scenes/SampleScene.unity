@@ -499,8 +499,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPool: {fileID: 1344806202}
-  velocity: 5
-  firingRate: 6
+  velocity: 8
+  firingRate: 5
+  delayBeforeFiring: 0.1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

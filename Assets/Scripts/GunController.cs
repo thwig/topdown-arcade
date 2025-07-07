@@ -7,22 +7,36 @@ public class GunController : MonoBehaviour
     [SerializeField] private BulletPoolController bulletPool;
     [SerializeField] private float velocity;
     [SerializeField] private float firingRate;
-    private float nextFiringTime;
+    [SerializeField] private float delayBeforeFiring;
+    private float nextFiringTime = 0f;
+    private bool buffering = false;
 
     // Update is called once per frame
     void Update()
     {
-        Vector2 dir = new Vector2(Input.GetAxisRaw("HorizontalFire"), Input.GetAxisRaw("VerticalFire"));
-        if (dir != Vector2.zero && Time.time >= nextFiringTime)
+        Vector2 dir = new Vector2(Input.GetAxisRaw("HorizontalFire"), Input.GetAxisRaw("VerticalFire")).normalized;
+        if (dir != Vector2.zero && Time.time >= nextFiringTime && !buffering)
         {
-            Shoot(dir);
-            nextFiringTime = Time.time + (1f / firingRate);
+            StartCoroutine(ShootWithDelay());
         }
     }
 
-    void Shoot(Vector2 direction)
+    IEnumerator ShootWithDelay()
     {
-        BulletController bullet = bulletPool.GetBullet(transform.position, Quaternion.identity).GetComponent<BulletController>();
-        bullet.SetVelocity(direction, velocity);
+        buffering = true;
+        yield return new WaitForSeconds(delayBeforeFiring);
+        Vector2 finalDir = new Vector2(Input.GetAxisRaw("HorizontalFire"), Input.GetAxisRaw("VerticalFire")).normalized;
+        if (finalDir != Vector2.zero && Time.time >= nextFiringTime)
+        {
+            BulletController bullet = bulletPool.GetBullet(transform.position, BulletRotation()).GetComponent<BulletController>();
+            bullet.SetVelocity(finalDir, velocity);
+            nextFiringTime = Time.time + (1f / firingRate);
+        }
+        buffering = false;
+    }
+
+    Quaternion BulletRotation()
+    {
+        return Quaternion.identity;
     }
 }
