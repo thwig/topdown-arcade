@@ -8,6 +8,7 @@ public class GunController : MonoBehaviour
     [SerializeField] private float velocity;
     [SerializeField] private float firingRate;
     [SerializeField] private float delayBeforeFiring;
+    [SerializeField] private float damage;
     private float nextFiringTime = 0f;
     private bool buffering = false;
 
@@ -30,6 +31,7 @@ public class GunController : MonoBehaviour
         {
             BulletController bullet = bulletPool.GetBullet(transform.position, BulletRotation()).GetComponent<BulletController>();
             bullet.SetVelocity(finalDir, velocity);
+            bullet.SetDamage(damage);
             nextFiringTime = Time.time + (1f / firingRate);
         }
         buffering = false;

@@ -6,11 +6,17 @@ public class BulletController : MonoBehaviour
 {
     private Vector3 direction = Vector2.zero;
     private float speed = 0f;
+    private float damage = 0f;
 
     public void SetVelocity(Vector2 direction, float speed)
     {
         this.direction = direction.normalized;
         this.speed = speed;
+    }
+
+    public void SetDamage(float damage)
+    {
+        this.damage = damage;
     }
 
     void Update()
@@ -21,5 +27,13 @@ public class BulletController : MonoBehaviour
     void OnBecameInvisible()
     {
         gameObject.SetActive(false);
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.layer == gameObject.layer)
+        {
+            gameObject.SetActive(false);
+        }
     }
 }
