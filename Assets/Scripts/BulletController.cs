@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletController : MonoBehaviour
+public class BulletController : MonoBehaviour, IProjectile<BulletController>
 {
     private Vector3 direction = Vector2.zero;
     private float speed = 0f;
@@ -17,6 +17,10 @@ public class BulletController : MonoBehaviour
     public void SetDamage(float damage)
     {
         this.damage = damage;
+    }
+    public float GetDamage()
+    {
+        return damage;
     }
 
     void Update()
