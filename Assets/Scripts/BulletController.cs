@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletController : MonoBehaviour, IProjectile<BulletController>
+public class BulletController : MonoBehaviour, IProjectile
 {
     private Vector3 direction = Vector2.zero;
     private float speed = 0f;

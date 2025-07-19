@@ -28,8 +28,9 @@ public class EnemyAI : MonoBehaviour
 
     void OnHit(GameObject projectile)
     {
-        
-        Die();
+        IProjectile proj = projectile.GetComponent<IProjectile>();
+        health -= proj.GetDamage();
+        if (health <= 0) Die();
     }
 
     void Die()
